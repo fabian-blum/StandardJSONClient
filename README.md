@@ -1,6 +1,9 @@
 # StandardJSONClient
 A .NET Standard 1.4 based Client to access a WebAPI behindet a Token security system.
 
+# Nuget Package
+https://www.nuget.org/packages/StandardJSONClient
+
 # How to use
 First you must initalize the following attributes via resource file.
 
