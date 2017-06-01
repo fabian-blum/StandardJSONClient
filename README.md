@@ -1,7 +1,9 @@
-# JSONClient
-To access a WebAPI behindet a Token security system
+# StandardJSONClient
+A .NET Standard 1.4 based Client to access a WebAPI behindet a Token security system.
 
 # How to use
+First you must initalize the following attributes via resource file.
+
 ```C#
 // Init JSONClient
 JsonClient.Client.ApiBaseUrl = Properties.Resources.ApiBaseUrl;
