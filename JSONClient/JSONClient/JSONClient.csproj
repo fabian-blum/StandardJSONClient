@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/fabian-blum/StandardJSONClient</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/fabian-blum/StandardJSONClient/blob/master/LICENSE</PackageLicenseUrl>
+    <Authors>Fabian Blum</Authors>
+    <Company />
+    <Product>StandardJSONClient</Product>
+    <Copyright />
+    <Description>A JSONClient for Token based authentication. Targets .NET Standard 1.4</Description>
+    <PackageTags>JSON Standard .NET Bearer Token</PackageTags>
+    <PackageId>StandardJSONClient</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
