@@ -96,7 +96,7 @@ namespace JSONClient
         {
             client.BaseAddress = new Uri(ApiBaseUrl);
             client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Token);
         }
 
@@ -121,8 +121,14 @@ namespace JSONClient
                     new KeyValuePair<string, string>("password", ApiPassword),
                 });
 
+                var Email = ApiUserName;
+                var Password = ApiPassword;
+
+                var jsonObject = JsonConvert.SerializeObject(new { Email, Password }, Formatting.Indented);
+                var stringHttpContent = new StringContent(jsonObject, Encoding.UTF8, "application/json");
+
                 //send request
-                var responseMessage = await client.PostAsync(ApiProjectPath + ApiTokenPath, formContent).ConfigureAwait(false);
+                var responseMessage = await client.PostAsync(ApiProjectPath + ApiTokenPath, stringHttpContent).ConfigureAwait(false);
 
                 //get access token from response body
                 var responseJson = await responseMessage.Content.ReadAsStringAsync();
@@ -151,6 +157,7 @@ namespace JSONClient
 
                 //make request
                 var response = await client.GetAsync(ApiProjectPath + requestPath).ConfigureAwait(false);
+                // TODO Hier auf string prüfen
                 var responseString = await response.Content.ReadAsStringAsync();
                 var responseType = JsonConvert.DeserializeObject<T>(responseString);
                 return responseType;

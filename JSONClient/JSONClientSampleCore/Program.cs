@@ -1,6 +1,5 @@
 ﻿using JSONClient;
 using System;
-using System.Collections.Generic;
 
 namespace JSONClientSampleCore
 {
@@ -16,23 +15,23 @@ namespace JSONClientSampleCore
             JsonClient.Client.ApiTokenPath = Properties.Resources.ApiTokenPath;
             JsonClient.Client.ApiUserName = Properties.Resources.ApiUserName;
 
-            var response = JsonClient.Client.GetRequest<List<Patient>>(
-                requestPath: "/api/Patients").Result;
+            var response = JsonClient.Client.PostRequest<string, string>(requestPath: "/api/values", httpContent: "jo").Result;
 
-            Console.WriteLine(response[0].FirstName);
-            Console.WriteLine(response[0].LastName);
 
-            var response2 = JsonClient.Client.GetRequest<List<Patient>>(
-                requestPath: "/api/Patients").Result;
 
-            Console.WriteLine(response[1].FirstName);
-            Console.WriteLine(response[1].LastName);
+            Console.WriteLine(response);
 
-            var response3 = JsonClient.Client.GetRequest<List<Patient>>(
-                requestPath: "/api/Patients").Result;
+            //var response2 = JsonClient.Client.GetRequest<List<Patient>>(
+            //    requestPath: "/api/Patients").Result;
 
-            Console.WriteLine(response[2].FirstName);
-            Console.WriteLine(response[2].LastName);
+            //Console.WriteLine(response[1].FirstName);
+            //Console.WriteLine(response[1].LastName);
+
+            //var response3 = JsonClient.Client.GetRequest<List<Patient>>(
+            //    requestPath: "/api/Patients").Result;
+
+            //Console.WriteLine(response[2].FirstName);
+            //Console.WriteLine(response[2].LastName);
         }
     }
 }
