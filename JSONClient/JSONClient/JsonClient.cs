@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -96,7 +95,7 @@ namespace JSONClient
         {
             client.BaseAddress = new Uri(ApiBaseUrl);
             client.DefaultRequestHeaders.Accept.Clear();
-            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Token);
         }
 
@@ -114,17 +113,10 @@ namespace JSONClient
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 //setup login data
-                var formContent = new FormUrlEncodedContent(new[]
-                {
-                    new KeyValuePair<string, string>("grant_type", "password"),
-                    new KeyValuePair<string, string>("username", ApiUserName),
-                    new KeyValuePair<string, string>("password", ApiPassword),
-                });
+                var email = ApiUserName;
+                var password = ApiPassword;
 
-                var Email = ApiUserName;
-                var Password = ApiPassword;
-
-                var jsonObject = JsonConvert.SerializeObject(new { Email, Password }, Formatting.Indented);
+                var jsonObject = JsonConvert.SerializeObject(new { Email = email, Password = password }, Formatting.Indented);
                 var stringHttpContent = new StringContent(jsonObject, Encoding.UTF8, "application/json");
 
                 //send request
@@ -157,8 +149,14 @@ namespace JSONClient
 
                 //make request
                 var response = await client.GetAsync(ApiProjectPath + requestPath).ConfigureAwait(false);
-                // TODO Hier auf string prüfen
+
                 var responseString = await response.Content.ReadAsStringAsync();
+
+                if (typeof(T) == typeof(string))
+                {
+                    return (T)(object)responseString;
+                }
+
                 var responseType = JsonConvert.DeserializeObject<T>(responseString);
                 return responseType;
             }
