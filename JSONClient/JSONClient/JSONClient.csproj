@@ -12,6 +12,8 @@
     <Description>A JSONClient for Token based authentication. Targets .NET Standard 1.4</Description>
     <PackageTags>JSON Standard .NET Bearer Token</PackageTags>
     <PackageId>StandardJSONClient</PackageId>
+    <Version>1.1.0</Version>
+    <PackageReleaseNotes>Get Token with JSON</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
