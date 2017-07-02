@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -114,15 +113,14 @@ namespace JSONClient
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 //setup login data
-                var formContent = new FormUrlEncodedContent(new[]
-                {
-                    new KeyValuePair<string, string>("grant_type", "password"),
-                    new KeyValuePair<string, string>("username", ApiUserName),
-                    new KeyValuePair<string, string>("password", ApiPassword),
-                });
+                var email = ApiUserName;
+                var password = ApiPassword;
+
+                var jsonObject = JsonConvert.SerializeObject(new { Email = email, Password = password }, Formatting.Indented);
+                var stringHttpContent = new StringContent(jsonObject, Encoding.UTF8, "application/json");
 
                 //send request
-                var responseMessage = await client.PostAsync(ApiProjectPath + ApiTokenPath, formContent).ConfigureAwait(false);
+                var responseMessage = await client.PostAsync(ApiProjectPath + ApiTokenPath, stringHttpContent).ConfigureAwait(false);
 
                 //get access token from response body
                 var responseJson = await responseMessage.Content.ReadAsStringAsync();
@@ -151,7 +149,14 @@ namespace JSONClient
 
                 //make request
                 var response = await client.GetAsync(ApiProjectPath + requestPath).ConfigureAwait(false);
+
                 var responseString = await response.Content.ReadAsStringAsync();
+
+                if (typeof(T) == typeof(string))
+                {
+                    return (T)(object)responseString;
+                }
+
                 var responseType = JsonConvert.DeserializeObject<T>(responseString);
                 return responseType;
             }
